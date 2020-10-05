@@ -1,1 +1,1 @@
-# go_memo
+# team7-backend
