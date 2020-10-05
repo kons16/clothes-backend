@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/kons16/team7-backend/infra"
 	"github.com/kons16/team7-backend/usecase"
+	"github.com/kons16/team7-backend/web"
 	"os"
 )
 
@@ -15,5 +16,8 @@ func main() {
 	}
 
 	userRepo := infra.NewUserRepository(dbMap)
-	_ = usecase.NewUserUseCase(userRepo)
+	userUC := usecase.NewUserUseCase(userRepo)
+
+	s := web.NewServer(userUC)
+	s.ListenAndServe()
 }
