@@ -1,0 +1,25 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db/mysql_init:/docker-entrypoint-initdb.d
+      - ./db/mysql_data:/var/lib/mysql
+      - ./db/config/charset.cnf:/etc/mysql/conf.d/charset.cnf
+    environment:
+      MYSQL_DATABASE: team7-db
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  api:
+    build: .
+    volumes:
+      - ./:/go/src/github.com/kons16/team7-backend
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    command: sh -c "./wait-for-it.sh db:3306;fresh;"
