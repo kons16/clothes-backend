@@ -1,5 +1,5 @@
 # team7-backend
-既存のWeフレームワークを使用しない、DDD構成のAPIサーバー.  
+標準ライブラリで作る、DDD構成のAPIサーバー.  
 [構成の参考にしたドキュメント](https://github.com/camphor-/relaym-server/blob/master/docs/application_architecture.md)  
   
 ## 環境構築
