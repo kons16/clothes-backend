@@ -19,5 +19,6 @@ func main() {
 	userUC := usecase.NewUserUseCase(userRepo)
 
 	s := web.NewServer(userUC)
+	fmt.Println("Server Start!!")
 	s.ListenAndServe()
 }

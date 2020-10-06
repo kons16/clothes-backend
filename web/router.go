@@ -7,9 +7,8 @@ import (
 )
 
 func NewServer(userUC *usecase.UserUseCase) *http.Server {
-	s := http.Server{
-		Addr: "127.0.0.1:8000",
-	}
+	var s http.Server
+	s.Addr = ":8000"
 
 	http.HandleFunc("/hello", handler.Hello)
 	http.HandleFunc("/user", handler.Create)

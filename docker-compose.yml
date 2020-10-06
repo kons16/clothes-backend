@@ -9,7 +9,7 @@ services:
       - ./db/mysql_data:/var/lib/mysql
       - ./db/config/charset.cnf:/etc/mysql/conf.d/charset.cnf
     environment:
-      MYSQL_DATABASE: team7-db
+      MYSQL_DATABASE: ict-db-test
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user
       MYSQL_PASSWORD: password
