@@ -22,4 +22,4 @@ services:
       - '8000:8000'
     depends_on:
       - db
-    command: sh -c "./wait-for-it.sh db:3306;fresh;"
+    command: sh -c "fresh;"
