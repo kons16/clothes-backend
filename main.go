@@ -16,16 +16,18 @@ func main() {
 		os.Exit(0)
 	}
 
-	_, err = Redis.NewRedisDB()
+	rdMap, err := Redis.NewRedisDB()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
 	}
 
 	userRepo := MySQL.NewUserRepository(dbMap)
+	sessionRepo := Redis.NewSessionRepository(rdMap)
 	userUC := usecase.NewUserUseCase(userRepo)
+	sessionUC := usecase.NewSessionUseCase(sessionRepo)
 
-	s := web.NewServer(userUC)
+	s := web.NewServer(userUC, sessionUC)
 	fmt.Println("Server Start!!")
 	s.ListenAndServe()
 }

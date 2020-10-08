@@ -2,6 +2,7 @@ package handler
 
 import "net/http"
 
-func Create(w http.ResponseWriter, r *http.Request) {
+// ユーザーを新規登録する
+func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 }
