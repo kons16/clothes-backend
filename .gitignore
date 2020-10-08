@@ -1,4 +1,5 @@
 .idea/
 .env
 db/mysql_data
+db/redis_data
 tmp/

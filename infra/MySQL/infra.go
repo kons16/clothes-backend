@@ -1,4 +1,4 @@
-package infra
+package MySQL
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func NewDB() (*sqlx.DB, error) {
+func NewMySQLDB() (*sqlx.DB, error) {
 	if err := godotenv.Load(); err != nil {
 		return nil, err
 	}

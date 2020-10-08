@@ -1,4 +1,4 @@
-package infra
+package MySQL
 
 import (
 	"github.com/jmoiron/sqlx"
