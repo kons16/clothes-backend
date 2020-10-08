@@ -10,9 +10,18 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	var s http.Server
 	s.Addr = ":8000"
 
+	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/hello", handler.Hello)
+	// POST アカウントの新規登録, 登録後 sessionID を返す
 	http.HandleFunc("/user", handler.CreateUser)
+	// GET cookie の sessionID から該当するユーザー情報を返す
 	http.HandleFunc("/is_login", handler.FindUserBySession)
+	// GET user_sessionテーブルから sessionID のカラムを削除する
+	http.HandleFunc("/logout", handler.FindUserBySession)
+	// POST 購入した服の ID を ユーザーと紐付ける
+	http.HandleFunc("/buy_cloth", nil)
+	// GET 購入した服の情報を持ってくる
+	http.HandleFunc("/cloth", nil)
 
 	return &s
 }

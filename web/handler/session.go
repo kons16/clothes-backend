@@ -2,7 +2,7 @@ package handler
 
 import "net/http"
 
-// cookie から受け取った sessionID から ログインしているかどうか確認
+// GET /is_login cookieから受け取った sessionID を元にユーザーがログインしているかどうか確認
 func FindUserBySession(w http.ResponseWriter, r *http.Request) {
 
 }
