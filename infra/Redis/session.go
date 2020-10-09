@@ -13,10 +13,11 @@ func NewSessionRepository(rdMap *redis.Client) *SessionRepository {
 	return &SessionRepository{rdMap: rdMap}
 }
 
-func (sr *SessionRepository) FindUserBySession(sessionID int64) (*entity.User, error) {
+func (sr *SessionRepository) FindUserBySession(sessionID int) (*entity.User, error) {
 	return nil, nil
 }
 
-func (sr *SessionRepository) CreateUserSession() (int64, error) {
-	return 0, nil
+func (sr *SessionRepository) CreateUserSession(id int) (string, error) {
+
+	return "", nil
 }

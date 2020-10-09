@@ -3,14 +3,32 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kons16/team7-backend/usecase"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 )
 
+// ユーザー登録する際に使用する構造体
+type User struct {
+	Name     string
+	SubmitID string
+	Year     int
+	Sex      int
+	Password string
+}
+
+type UserHandler struct {
+	uc *usecase.UserUseCase
+}
+
+func NewUserHandler(userUseCase *usecase.UserUseCase) *UserHandler {
+	return &UserHandler{uc: userUseCase}
+}
+
 // POST /user ユーザーを新規登録する
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
 	for k, v := range r.Header {
@@ -30,6 +48,15 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(postData["Name"])
+
+		var user User
+		user.Name = postData["name"].(string)
+		user.SubmitID = postData["submit_id"].(string)
+		user.Password = postData["password"].(string)
+		user.Year = postData["year"].(int)
+		user.Sex = postData["sex"].(int)
+
+		uh.uc.CreateUser(&user)
+
 	}
 }

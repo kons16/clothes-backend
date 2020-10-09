@@ -10,10 +10,12 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	var s http.Server
 	s.Addr = ":8000"
 
+	userHandler := handler.NewUserHandler(userUC)
+
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/hello", handler.Hello)
 	// POST アカウントの新規登録, 登録後 sessionID を返す
-	http.HandleFunc("/user", handler.CreateUser)
+	http.HandleFunc("/user", userHandler.CreateUser)
 	// GET cookie の sessionID から該当するユーザー情報を返す
 	http.HandleFunc("/is_login", handler.FindUserBySession)
 	// GET user_sessionテーブルから sessionID のカラムを削除する
