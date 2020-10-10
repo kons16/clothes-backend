@@ -32,13 +32,13 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 
 		var postData map[string]interface{}
 		err = json.Unmarshal(body, &postData)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 
 		fmt.Println(postData)
@@ -73,7 +73,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		var postData map[string]interface{}
 		err = json.Unmarshal(body, &postData)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 
 		fmt.Println(postData)
@@ -84,7 +84,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 		sessionID, err := uh.uc.Login(&userLogin)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
 
 		ans := map[string]string{
