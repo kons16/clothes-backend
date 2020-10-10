@@ -8,3 +8,21 @@ $ git clone https://github.com/kons16/team7-backend.git
 $ cd team7-backend
 $ docker-compose up
 ```
+
+## Redis
+ユーザーの SessionID の保存には Redis を使用しています.  
+Redis には key が UserID, value が SessionID と ExpiresAt を保存しています.  
+```
+$ docker exec -it [container_id] sh
+
+# redis-cli
+
+> keys *
+1) "111222333"
+
+> hgetall 111222333
+1) "SessionID"
+2) "xxxyyyzzz"
+3) "ExpiresAt"
+4) "2020-10-11 05:11:32"
+```
