@@ -22,6 +22,12 @@ type User struct {
 	Password string
 }
 
+// ログインする際に使用する構造体
+type UserLogin struct {
+	SubmitID string
+	Password string
+}
+
 func NewUserUseCase(userRepo repository.User, sessionRepo repository.Session) *UserUseCase {
 	return &UserUseCase{userRepo: userRepo, sessionRepo: sessionRepo}
 }
@@ -48,6 +54,33 @@ func (uc *UserUseCase) CreateUser(user *User) (string, error) {
 
 	// Redis にセッションを保存
 	err = uc.sessionRepo.CreateUserSession(userID, sessionID)
+	if err != nil {
+		fmt.Print(err)
+		return "", err
+	}
+
+	return sessionID, nil
+}
+
+func (uc *UserUseCase) Login(userLogin *UserLogin) (string, error) {
+	// submit_id に紐づく user情報(passwordHash, UserID) を取得する
+	user, err := uc.userRepo.FindPasswordHashBySubmitID(userLogin.SubmitID)
+	if err != nil {
+		return "", err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(userLogin.Password)); err != nil {
+		if err == bcrypt.ErrMismatchedHashAndPassword {
+			return "", nil
+		}
+		return "", err
+	}
+
+	// SessionIDを生成
+	sessionID := service.CreateNewToken()
+
+	// Redis にセッションを保存
+	err = uc.sessionRepo.CreateUserSession(user.ID, sessionID)
 	if err != nil {
 		fmt.Print(err)
 		return "", err
