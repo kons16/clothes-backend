@@ -15,11 +15,13 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/hello", handler.Hello)
-	// POST アカウントの新規登録, 登録後 sessionID を返す
+	// POST アカウントの新規登録し, sessionID を返す
 	http.HandleFunc("/user", userHandler.CreateUser)
 	// GET cookie の sessionID から該当するユーザー情報を返す
 	http.HandleFunc("/is_login", sessionHandler.FindUserBySession)
-	// GET user_sessionテーブルから sessionID のカラムを削除する
+	// POST user_sessionテーブル に userID に紐づく sessionID のカラムを追加し,sessionID を返す
+	http.HandleFunc("/login", sessionHandler.Login)
+	// GET user_sessionテーブル から sessionID のカラムを削除する
 	http.HandleFunc("/logout", sessionHandler.FindUserBySession)
 	// POST 購入した服の ID を ユーザーと紐付ける
 	// http.HandleFunc("/buy_cloth", nil)
