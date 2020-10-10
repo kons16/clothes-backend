@@ -20,7 +20,7 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	// GET cookie の sessionID から該当するユーザー情報を返す
 	http.HandleFunc("/is_login", sessionHandler.FindUserBySession)
 	// POST user_sessionテーブル に userID に紐づく sessionID のカラムを追加し,sessionID を返す
-	http.HandleFunc("/login", sessionHandler.Login)
+	http.HandleFunc("/login", userHandler.Login)
 	// GET user_sessionテーブル から sessionID のカラムを削除する
 	http.HandleFunc("/logout", sessionHandler.FindUserBySession)
 	// POST 購入した服の ID を ユーザーと紐付ける
