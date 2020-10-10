@@ -11,7 +11,7 @@ $ docker-compose up
 
 ## Redis
 ユーザーの SessionID の保存には Redis を使用しています.  
-Redis には key が UserID, value が SessionID と ExpiresAt を保存しています.  
+Redis には key が UserID, field が SessionID と ExpiresAt をhashで保存しています.  
 ```
 $ docker exec -it [container_id] sh
 
