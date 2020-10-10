@@ -10,15 +10,6 @@ import (
 	"strings"
 )
 
-// ユーザー登録する際に使用する構造体
-type User struct {
-	Name     string
-	SubmitID string
-	Year     int
-	Sex      int
-	Password string
-}
-
 type UserHandler struct {
 	uc *usecase.UserUseCase
 }
@@ -49,7 +40,7 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
-		var user User
+		var user usecase.User
 		user.Name = postData["name"].(string)
 		user.SubmitID = postData["submit_id"].(string)
 		user.Password = postData["password"].(string)

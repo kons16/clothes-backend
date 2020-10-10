@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/kons16/team7-backend/domain/entity"
 	"github.com/kons16/team7-backend/domain/repository"
-	"github.com/kons16/team7-backend/web/handler"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -13,11 +12,20 @@ type UserUseCase struct {
 	sessionRepo repository.Session
 }
 
+// ユーザー登録する際に使用する構造体
+type User struct {
+	Name     string
+	SubmitID string
+	Year     int
+	Sex      int
+	Password string
+}
+
 func NewUserUseCase(userRepo repository.User, sessionRepo repository.Session) *UserUseCase {
 	return &UserUseCase{userRepo: userRepo, sessionRepo: sessionRepo}
 }
 
-func (uc *UserUseCase) CreateUser(user *handler.User) (string, error) {
+func (uc *UserUseCase) CreateUser(user *User) (string, error) {
 	var createUserModel entity.User
 	createUserModel.SubmitID = user.SubmitID
 	createUserModel.Name = user.Name
