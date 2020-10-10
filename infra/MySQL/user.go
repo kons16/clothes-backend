@@ -1,6 +1,7 @@
 package MySQL
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kons16/team7-backend/domain/entity"
 	"time"
@@ -39,4 +40,16 @@ func (r *UserRepository) Create(user *entity.User) (int, error) {
 		id, user.Name, user.SubmitID, user.Year, user.Sex, user.PasswordHash, now, now,
 	)
 	return id, err
+}
+
+// FindPasswordHashBySubmitID は submitID に紐づく userID と PasswordHash を取得する
+func (r *UserRepository) FindPasswordHashBySubmitID(submitID string) (*entity.User, error) {
+	var user entity.User
+	err := r.dbMap.Select(&user, `SELECT id, password_hash FROM user WHERE submit_id = ? LIMIT 1`, submitID)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return &user, nil
 }
