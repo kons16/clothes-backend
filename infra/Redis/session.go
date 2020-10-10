@@ -2,8 +2,10 @@ package Redis
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"github.com/kons16/team7-backend/domain/entity"
+	"strconv"
 	"time"
 )
 
@@ -31,8 +33,24 @@ func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) err
 		"ExpiresAt": expiresAt.Format(layout),
 	}
 
-	// key: UserID, Value: SessionID, ExpiresAt
-	sr.rdMap.HMSet(ctx, string(userID), m)
+	key := strconv.Itoa(userID)
+
+	// key: UserID, Hash [ SessionID, ExpiresAt ]
+	for field, val := range m {
+		fmt.Println("Inserting", "field:", field, "val:", val)
+		err := sr.rdMap.HSet(ctx, key, field, val).Err()
+		if err != nil {
+			fmt.Println("sr.rdMap.HSet Error:", err)
+		}
+	}
+
+	/*
+		h, err := sr.rdMap.HGet(ctx, key, "SessionID").Result()
+		if err != nil {
+			fmt.Println("redis.Client.HGet Error:", err)
+		}
+		fmt.Println(h)
+	*/
 
 	return nil
 }

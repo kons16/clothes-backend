@@ -35,7 +35,7 @@ func (r *UserRepository) Create(user *entity.User) (int, error) {
 	_, err := r.dbMap.Exec(
 		`INSERT INTO users
 			(id, name, submit_id, year, sex, password_hash, created_at, updated_at)
-			VALUES (?, ?, ?, ?, ?)`,
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 		id, user.Name, user.SubmitID, user.Year, user.Sex, user.PasswordHash, now, now,
 	)
 	return id, err

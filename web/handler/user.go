@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -40,14 +41,15 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 
+		fmt.Println(postData)
+
 		var user usecase.User
 		user.Name = postData["name"].(string)
 		user.SubmitID = postData["submit_id"].(string)
 		user.Password = postData["password"].(string)
-		user.Year = postData["year"].(int)
-		user.Sex = postData["sex"].(int)
+		user.Year, _ = strconv.Atoi(postData["year"].(string))
+		user.Sex, _ = strconv.Atoi(postData["sex"].(string))
 
 		uh.uc.CreateUser(&user)
-
 	}
 }
