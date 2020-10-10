@@ -12,6 +12,11 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if r.Header.Get("Content-Type") != "application/json" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	// 返すjson
 	ans := map[string]string{
 		"message": "hello",

@@ -17,7 +17,7 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	http.HandleFunc("/api/v1/hello", handler.Hello)
 	// POST アカウントの新規登録し, sessionID を返す
 	http.HandleFunc("/api/v1/user", userHandler.CreateUser)
-	// TODO: POST user_sessionテーブル に userID に紐づく sessionID のカラムを追加し, sessionID を返す
+	// TODO: POST user_sessionテーブル に sessionID に紐づく userID のカラムを追加し, sessionID を返す
 	http.HandleFunc("/api/v1/login", userHandler.Login)
 	// TODO: GET クライアントから送られてきた sessionID が切れてないか確認
 	http.HandleFunc("/api/v1/is_login", sessionHandler.FindUserBySession)

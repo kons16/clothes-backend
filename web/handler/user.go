@@ -28,6 +28,11 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(": " + strings.Join(v, ","))
 	}
 
+	if r.Header.Get("Content-Type") != "application/json" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	if method == "POST" {
 		defer r.Body.Close()
 		body, err := ioutil.ReadAll(r.Body)
@@ -61,6 +66,11 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	for k, v := range r.Header {
 		fmt.Print("[header] " + k)
 		fmt.Println(": " + strings.Join(v, ","))
+	}
+
+	if r.Header.Get("Content-Type") != "application/json" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	if method == "POST" {
