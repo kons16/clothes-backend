@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/kons16/team7-backend/domain/entity"
 	"github.com/kons16/team7-backend/domain/repository"
+	"github.com/kons16/team7-backend/domain/service"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -36,14 +37,17 @@ func (uc *UserUseCase) CreateUser(user *User) (string, error) {
 	createUserModel.PasswordHash = string(passwordHash)
 
 	// MySQL にデータを保存
-	id, err := uc.userRepo.Create(&createUserModel)
+	userID, err := uc.userRepo.Create(&createUserModel)
 	if err != nil {
 		fmt.Print(err)
 		return "", err
 	}
 
+	// SessionIDを生成
+	sessionID := service.CreateNewToken()
+
 	// Redis にセッションを保存
-	sessionID, err := uc.sessionRepo.CreateUserSession(id)
+	err = uc.sessionRepo.CreateUserSession(userID, sessionID)
 	if err != nil {
 		fmt.Print(err)
 		return "", err

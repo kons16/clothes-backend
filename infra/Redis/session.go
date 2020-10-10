@@ -1,8 +1,10 @@
 package Redis
 
 import (
+	"context"
 	"github.com/go-redis/redis/v8"
 	"github.com/kons16/team7-backend/domain/entity"
+	"time"
 )
 
 type SessionRepository struct {
@@ -17,7 +19,20 @@ func (sr *SessionRepository) FindUserBySession(sessionID int) (*entity.User, err
 	return nil, nil
 }
 
-func (sr *SessionRepository) CreateUserSession(id int) (string, error) {
+// UserIDに紐づくSessionIDをRedisに保存
+func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) error {
+	ctx := context.Background()
+	expiresAt := time.Now().Add(24 * time.Hour)
 
-	return "", nil
+	layout := "2006-01-02 15:04:05"
+
+	m := map[string]string{
+		"SessionID": sessionID,
+		"ExpiresAt": expiresAt.Format(layout),
+	}
+
+	// key: UserID, Value: SessionID, ExpiresAt
+	sr.rdMap.HMSet(ctx, string(userID), m)
+
+	return nil
 }

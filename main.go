@@ -24,7 +24,7 @@ func main() {
 
 	userRepo := MySQL.NewUserRepository(dbMap)
 	sessionRepo := Redis.NewSessionRepository(rdMap)
-	userUC := usecase.NewUserUseCase(userRepo)
+	userUC := usecase.NewUserUseCase(userRepo, sessionRepo)
 	sessionUC := usecase.NewSessionUseCase(sessionRepo)
 
 	s := web.NewServer(userUC, sessionUC)
