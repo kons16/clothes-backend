@@ -11,19 +11,20 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	s.Addr = ":8000"
 
 	userHandler := handler.NewUserHandler(userUC)
+	sessionHandler := handler.NewSessionHandler(sessionUC)
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/hello", handler.Hello)
 	// POST アカウントの新規登録, 登録後 sessionID を返す
 	http.HandleFunc("/user", userHandler.CreateUser)
 	// GET cookie の sessionID から該当するユーザー情報を返す
-	http.HandleFunc("/is_login", handler.FindUserBySession)
+	http.HandleFunc("/is_login", sessionHandler.FindUserBySession)
 	// GET user_sessionテーブルから sessionID のカラムを削除する
-	http.HandleFunc("/logout", handler.FindUserBySession)
+	http.HandleFunc("/logout", sessionHandler.FindUserBySession)
 	// POST 購入した服の ID を ユーザーと紐付ける
-	http.HandleFunc("/buy_cloth", nil)
+	// http.HandleFunc("/buy_cloth", nil)
 	// GET 購入した服の情報を持ってくる
-	http.HandleFunc("/cloth", nil)
+	// http.HandleFunc("/cloth", nil)
 
 	return &s
 }
