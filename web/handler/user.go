@@ -55,7 +55,22 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		user.Year, _ = strconv.Atoi(postData["year"].(string))
 		user.Sex, _ = strconv.Atoi(postData["sex"].(string))
 
-		uh.uc.CreateUser(&user)
+		sessionID, err := uh.uc.CreateUser(&user)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		ans := map[string]string{
+			"sessionID": sessionID,
+		}
+		res, err := json.Marshal(ans)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
 	}
 }
 
