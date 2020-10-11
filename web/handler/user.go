@@ -41,8 +41,6 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 
-		fmt.Println(postData)
-
 		var user usecase.User
 		user.Name = postData["name"].(string)
 		user.SubmitID = postData["submit_id"].(string)

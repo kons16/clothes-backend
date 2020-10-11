@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kons16/team7-backend/usecase"
+	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type ClothHandler struct {
@@ -21,28 +23,30 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[method] " + method)
 
 	if method == "POST" {
-		cookie, err := r.Cookie("sessionID")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		v := cookie.Value
-
-		checkBool := sh.sc.CheckBySession(v)
-		checkStr := ""
+		defer r.Body.Close()
+		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
 			fmt.Println(err)
 		}
-		// bool を str に変換
-		if checkBool == true {
-			checkStr = "true"
-		} else {
-			checkStr = "false"
+
+		var postData map[string]interface{}
+		err = json.Unmarshal(body, &postData)
+		if err != nil {
+			fmt.Println(err)
 		}
 
-		// isLogin が true のとき session が残っている
+		var cloth usecase.Cloth
+		cloth.Name = postData["name"].(string)
+		cloth.Price = postData["price"].(string)
+		cloth.ImageBase64 = postData["image"].(string)
+
+		clothID, err := ch.cu.CreateCloth(&cloth)
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		ans := map[string]string{
-			"cloth_id": checkStr,
+			"cloth_id": strconv.Itoa(clothID),
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {

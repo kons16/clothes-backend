@@ -78,4 +78,21 @@ cookieをHeaderに付与
 ```
 
 ## 服関連
-
+`POST /cloth`  
+#### リクエスト
+`enctype="multipart/form-data"` を指定する必要があります。  
+アップロードする `image` は `base64`です。
+```
+{
+  "name": "乃木坂Tシャツ",
+  "price": "3000",
+  "image": "xxxxyyyyyzzzz"
+}
+```
+#### レスポンス
+アップロードされた画像の id を返します。
+```
+{
+  "image_id": "123"
+}
+```

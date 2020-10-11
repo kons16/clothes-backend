@@ -23,7 +23,7 @@ func (r *ClothRepository) generateID() (int, error) {
 }
 
 // Create は服を新規で追加します
-func (r *ClothRepository) Create(cloth *entity.Clothe) (int, error) {
+func (r *ClothRepository) Create(cloth *entity.Cloth) (int, error) {
 	now := time.Now()
 	id, _ := r.generateID()
 

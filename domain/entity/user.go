@@ -7,7 +7,7 @@ type User struct {
 	Sex          int
 	Year         int
 	PasswordHash string
-	Clothes      []Clothe
+	Clothes      []Cloth
 }
 
 // ログイン後に得られる構造体

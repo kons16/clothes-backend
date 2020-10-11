@@ -6,25 +6,26 @@ import (
 	"net/http"
 )
 
-func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *http.Server {
+func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, clothUC *usecase.ClothUseCase) *http.Server {
 	var s http.Server
 	s.Addr = ":8000"
 
 	userHandler := handler.NewUserHandler(userUC)
 	sessionHandler := handler.NewSessionHandler(sessionUC)
+	clothHandler := handler.NewClothHandler(clothUC)
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/api/v1/hello", handler.Hello)
-	// TODO: POST アカウントの新規登録し, sessionID と expiresAt を返す
+	// POST アカウントの新規登録し, sessionID を返す
 	http.HandleFunc("/api/v1/user", userHandler.CreateUser)
-	// TODO: POST user_sessionテーブル に sessionID に紐づく userID のカラムを追加し, sessionID と expiresAt を返す
+	// POST user_sessionテーブル に sessionID に紐づく userID のカラムを追加し, sessionID を返す
 	http.HandleFunc("/api/v1/login", userHandler.Login)
 	// GET クライアントから送られてきた sessionID が切れてないか確認
 	http.HandleFunc("/api/v1/is_login", sessionHandler.FindUserBySession)
 	// GET user_sessionテーブル から sessionID のカラムを削除する
-	http.HandleFunc("/api/v1/logout", sessionHandler.CreateCloth)
+	http.HandleFunc("/api/v1/logout", sessionHandler.Logout)
 	// POST 服情報の追加
-	http.HandleFunc("/api/v1/post_cloth", nil)
+	http.HandleFunc("/api/v1/cloth", clothHandler.CreateCloth)
 	// GET 服情報の取得
 	// http.HandleFunc("/api/v1/get_cloth", nil)
 	// POST 購入した服の ID を ユーザーと紐付ける

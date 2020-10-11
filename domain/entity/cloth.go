@@ -1,6 +1,6 @@
 package entity
 
-type Clothe struct {
+type Cloth struct {
 	ID       int
 	Name     string
 	Price    string
