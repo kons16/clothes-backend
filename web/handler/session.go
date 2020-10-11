@@ -42,7 +42,7 @@ func (sh *SessionHandler) FindUserBySession(w http.ResponseWriter, r *http.Reque
 
 		// isLogin が true のとき session が残っている
 		ans := map[string]string{
-			"isLogin": checkStr,
+			"is_login": checkStr,
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {
@@ -82,7 +82,7 @@ func (sh *SessionHandler) Logout(w http.ResponseWriter, r *http.Request) {
 
 		// logout が true のとき logout 成功
 		ans := map[string]string{
-			"logout": checkStr,
+			"is_logout": checkStr,
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {

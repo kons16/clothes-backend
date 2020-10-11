@@ -31,7 +31,7 @@
 #### レスポンス
 ```
 {
-  "sessionID": "xxxyyyzzz"
+  "session_id": "xxxyyyzzz"
 }
 ```
 
@@ -47,7 +47,7 @@
 #### レスポンス
 ```
 {
-  "sessionID": "xxxyyyzzz"
+  "session_id": "xxxyyyzzz"
 }
 ```
 
@@ -60,7 +60,7 @@ cookieをHeaderに付与
 `false` のときログインしていない。
 ```
 {
-  "isLogin": "true"
+  "is_login": "true"
 }
 ```
 
@@ -73,7 +73,7 @@ cookieをHeaderに付与
 `false` のときログアウト失敗。
 ```
 {
-  "logout": "true"
+  "is_logout": "true"
 }
 ```
 

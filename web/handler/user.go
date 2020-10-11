@@ -56,7 +56,7 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 
 		ans := map[string]string{
-			"sessionID": sessionID,
+			"session_id": sessionID,
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {
@@ -104,7 +104,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		}
 
 		ans := map[string]string{
-			"sessionID": sessionID,
+			"session_id": sessionID,
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {
