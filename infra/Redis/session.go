@@ -29,16 +29,14 @@ func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) err
 	layout := "2006-01-02 15:04:05"
 
 	m := map[string]string{
-		"SessionID": sessionID,
+		"UserID":    strconv.Itoa(userID),
 		"ExpiresAt": expiresAt.Format(layout),
 	}
 
-	key := strconv.Itoa(userID)
-
-	// key: UserID, Hash [ SessionID, ExpiresAt ]
+	// key: SessionID, Hash [ UserID, ExpiresAt ]
 	for field, val := range m {
 		fmt.Println("Inserting", "field:", field, "val:", val)
-		err := sr.rdMap.HSet(ctx, key, field, val).Err()
+		err := sr.rdMap.HSet(ctx, sessionID, field, val).Err()
 		if err != nil {
 			fmt.Println("sr.rdMap.HSet Error:", err)
 		}
