@@ -17,7 +17,6 @@
 
 ## 新規登録
 `POST /user`
-  
 #### リクエスト
 ```
 {
@@ -78,6 +77,7 @@ cookieをHeaderに付与
 ```
 
 ## 服関連
+## 服の新規追加
 `POST /cloth`  
 #### リクエスト
 `enctype="multipart/form-data"` を指定する必要があります。  
