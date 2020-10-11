@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
-	"github.com/kons16/team7-backend/domain/entity"
 	"strconv"
 	"time"
 )
@@ -15,10 +14,6 @@ type SessionRepository struct {
 
 func NewSessionRepository(rdMap *redis.Client) *SessionRepository {
 	return &SessionRepository{rdMap: rdMap}
-}
-
-func (sr *SessionRepository) FindUserBySession(sessionID int) (*entity.User, error) {
-	return nil, nil
 }
 
 // UserIDに紐づくSessionIDをRedisに保存
@@ -42,13 +37,30 @@ func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) err
 		}
 	}
 
-	/*
-		h, err := sr.rdMap.HGet(ctx, key, "SessionID").Result()
-		if err != nil {
-			fmt.Println("redis.Client.HGet Error:", err)
-		}
-		fmt.Println(h)
-	*/
-
 	return nil
+}
+
+// SessionID に紐づく UserID があるかどうか確認
+func (sr *SessionRepository) CheckBySession(sessionID string) bool {
+	ctx := context.Background()
+	// TODO: 時間が切れてないか確認する now := time.Now()
+
+	_, err := sr.rdMap.HGet(ctx, sessionID, "UserID").Result()
+	if err != nil {
+		fmt.Println("redis.Client.HGet Error:", err)
+		return false
+	}
+	return true
+}
+
+// Logout は SessionID のカラムを Redis から削除する
+func (sr *SessionRepository) Logout(sessionID string) bool {
+	ctx := context.Background()
+
+	err := sr.rdMap.Del(ctx, sessionID).Err()
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
 }

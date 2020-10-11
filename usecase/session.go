@@ -11,3 +11,13 @@ type SessionUseCase struct {
 func NewSessionUseCase(sessionRepo repository.Session) *SessionUseCase {
 	return &SessionUseCase{sessionRepo: sessionRepo}
 }
+
+func (sc *SessionUseCase) CheckBySession(sessionID string) bool {
+	check := sc.sessionRepo.CheckBySession(sessionID)
+	return check
+}
+
+func (sc *SessionUseCase) Logout(sessionID string) bool {
+	check := sc.sessionRepo.Logout(sessionID)
+	return check
+}

@@ -1,8 +1,7 @@
 package repository
 
-import "github.com/kons16/team7-backend/domain/entity"
-
 type Session interface {
-	FindUserBySession(sessionID int) (*entity.User, error)
+	CheckBySession(sessionID string) bool
 	CreateUserSession(id int, sessionID string) error
+	Logout(sessionID string) bool
 }

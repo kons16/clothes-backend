@@ -15,14 +15,14 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/api/v1/hello", handler.Hello)
-	// POST アカウントの新規登録し, sessionID を返す
+	// TODO: POST アカウントの新規登録し, sessionID と expiresAt を返す
 	http.HandleFunc("/api/v1/user", userHandler.CreateUser)
-	// TODO: POST user_sessionテーブル に sessionID に紐づく userID のカラムを追加し, sessionID を返す
+	// TODO: POST user_sessionテーブル に sessionID に紐づく userID のカラムを追加し, sessionID と expiresAt を返す
 	http.HandleFunc("/api/v1/login", userHandler.Login)
-	// TODO: GET クライアントから送られてきた sessionID が切れてないか確認
+	// GET クライアントから送られてきた sessionID が切れてないか確認
 	http.HandleFunc("/api/v1/is_login", sessionHandler.FindUserBySession)
-	// TODO: GET user_sessionテーブル から sessionID のカラムを削除する
-	http.HandleFunc("/api/v1/logout", sessionHandler.FindUserBySession)
+	// GET user_sessionテーブル から sessionID のカラムを削除する
+	http.HandleFunc("/api/v1/logout", sessionHandler.Logout)
 	// POST 購入した服の ID を ユーザーと紐付ける
 	// http.HandleFunc("/api/v1/buy_cloth", nil)
 	// GET 購入した服の情報を持ってくる
