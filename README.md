@@ -13,18 +13,18 @@ $ docker-compose up
 
 ## Redis
 ユーザーの SessionID の保存には Redis を使用しています.  
-Redis には key が UserID, field が SessionID と ExpiresAt をhashで保存しています.  
+Redis には key が SessionID, field が UserID と ExpiresAt をhashで保存しています.  
 ```
 $ docker exec -it [container_id] sh
 
 # redis-cli
 
 > keys *
-1) "111222333"
+1) "xxxyyyzzz"
 
-> hgetall 111222333
-1) "SessionID"
-2) "xxxyyyzzz"
+> hgetall xxxyyyzzz
+1) "UserID"
+2) "112233"
 3) "ExpiresAt"
 4) "2020-10-11 05:11:32"
 ```
