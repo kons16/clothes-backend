@@ -9,3 +9,9 @@ type User struct {
 	PasswordHash string
 	Clothes      []Clothe
 }
+
+// ログイン後に得られる構造体
+type LoginGetUser struct {
+	ID           int    `db:"id"`
+	PasswordHash string `db:"password_hash"`
+}

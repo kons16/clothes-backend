@@ -69,12 +69,16 @@ func (uc *UserUseCase) Login(userLogin *UserLogin) (string, error) {
 		return "", err
 	}
 
+	fmt.Println(user)
+
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(userLogin.Password)); err != nil {
 		if err == bcrypt.ErrMismatchedHashAndPassword {
 			return "", nil
 		}
 		return "", err
 	}
+
+	// TODO: redis に sessionID が残っている場合は削除
 
 	// SessionIDを生成
 	sessionID := service.CreateNewToken()

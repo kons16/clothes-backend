@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 type UserHandler struct {
@@ -23,10 +22,6 @@ func NewUserHandler(userUseCase *usecase.UserUseCase) *UserHandler {
 func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	for k, v := range r.Header {
-		fmt.Print("[header] " + k)
-		fmt.Println(": " + strings.Join(v, ","))
-	}
 
 	if r.Header.Get("Content-Type") != "application/json" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -78,10 +73,6 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	for k, v := range r.Header {
-		fmt.Print("[header] " + k)
-		fmt.Println(": " + strings.Join(v, ","))
-	}
 
 	if r.Header.Get("Content-Type") != "application/json" {
 		w.WriteHeader(http.StatusBadRequest)
