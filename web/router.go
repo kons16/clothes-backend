@@ -22,15 +22,15 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase) *
 	// GET クライアントから送られてきた sessionID が切れてないか確認
 	http.HandleFunc("/api/v1/is_login", sessionHandler.FindUserBySession)
 	// GET user_sessionテーブル から sessionID のカラムを削除する
-	http.HandleFunc("/api/v1/logout", sessionHandler.Logout)
+	http.HandleFunc("/api/v1/logout", sessionHandler.CreateCloth)
+	// POST 服情報の追加
+	http.HandleFunc("/api/v1/post_cloth", nil)
+	// GET 服情報の取得
+	// http.HandleFunc("/api/v1/get_cloth", nil)
 	// POST 購入した服の ID を ユーザーと紐付ける
 	// http.HandleFunc("/api/v1/buy_cloth", nil)
 	// GET 購入した服の情報を持ってくる
 	// http.HandleFunc("/api/v1/my_cloth", nil)
-	// POST 服情報の追加
-	// http.HandleFunc("/api/v1/post_cloth", nil)
-	// GET 服情報の取得
-	// http.HandleFunc("/api/v1/get_cloth", nil)
 
 	return &s
 }

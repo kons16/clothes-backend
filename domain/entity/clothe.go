@@ -1,8 +1,9 @@
 package entity
 
 type Clothe struct {
-	ID    int
-	name  string
-	price string
-	User  *User
+	ID       int
+	Name     string
+	Price    string
+	ImageUrl string
+	User     *User
 }
