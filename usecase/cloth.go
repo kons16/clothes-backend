@@ -15,6 +15,7 @@ type ClothUseCase struct {
 type Cloth struct {
 	Name        string
 	Price       string
+	Type        string
 	ImageBase64 string
 }
 
@@ -22,10 +23,12 @@ func NewClothUseCase(clothRepo repository.Cloth) *ClothUseCase {
 	return &ClothUseCase{clothRepo: clothRepo}
 }
 
+// 服を新規追加
 func (cu *ClothUseCase) CreateCloth(cloth *Cloth) (int, error) {
 	var clothEntityModel entity.Cloth
 	clothEntityModel.Name = cloth.Name
 	clothEntityModel.Price = cloth.Price
+	clothEntityModel.Type = cloth.Type
 	clothEntityModel.ImageUrl = service.UploadS3(cloth.ImageBase64)
 
 	// MySQL に服情報を追加
@@ -36,4 +39,10 @@ func (cu *ClothUseCase) CreateCloth(cloth *Cloth) (int, error) {
 	}
 
 	return clothID, nil
+}
+
+// すべての服情報を取得
+func (cu *ClothUseCase) GetAll() *[]entity.Cloth {
+	clothes := cu.clothRepo.GetAll()
+	return clothes
 }

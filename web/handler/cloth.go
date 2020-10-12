@@ -38,6 +38,7 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 		var cloth usecase.Cloth
 		cloth.Name = postData["name"].(string)
 		cloth.Price = postData["price"].(string)
+		cloth.Type = postData["type"].(string)
 		cloth.ImageBase64 = postData["image"].(string)
 
 		clothID, err := ch.cu.CreateCloth(&cloth)
@@ -47,6 +48,29 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 
 		ans := map[string]string{
 			"cloth_id": strconv.Itoa(clothID),
+		}
+		res, err := json.Marshal(ans)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+	}
+}
+
+// GET /get_cloth 服情報をすべて取得する
+func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
+	method := r.Method
+	fmt.Println("[method] " + method)
+
+	if method == "GET" {
+		clothes := ch.cu.GetAll()
+		clothesJson, err := json.Marshal(clothes)
+
+		ans := map[string]string{
+			"clothes": string(clothesJson),
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {

@@ -1,6 +1,7 @@
 package MySQL
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kons16/team7-backend/domain/entity"
 	"time"
@@ -29,9 +30,21 @@ func (r *ClothRepository) Create(cloth *entity.Cloth) (int, error) {
 
 	_, err := r.dbMap.Exec(
 		`INSERT INTO clothes
-			(id, name, price, url, created_at, updated_at)
-			VALUES (?, ?, ?, ?, ?, ?)`,
-		id, cloth.Name, cloth.Price, cloth.ImageUrl, now, now,
+			(id, name, price, image_url, type, created_at, updated_at)
+			VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		id, cloth.Name, cloth.Price, cloth.ImageUrl, cloth.Type, now, now,
 	)
 	return id, err
+}
+
+// GetAll は すべての服情報を取得します
+func (r *ClothRepository) GetAll() *[]entity.Cloth {
+	var cloth []entity.Cloth
+	err := r.dbMap.Select(&cloth, `SELECT * FROM clothes`)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return &cloth
 }
