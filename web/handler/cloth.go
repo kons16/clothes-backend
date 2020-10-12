@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type ClothHandler struct {
@@ -21,6 +22,8 @@ func NewClothHandler(clothUseCase *usecase.ClothUseCase) *ClothHandler {
 func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
+	w.Header().Set("Access-Control-Allow-Origin", "http")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "POST" {
 		defer r.Body.Close()
@@ -29,17 +32,17 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 
-		var postData map[string]interface{}
-		err = json.Unmarshal(body, &postData)
-		if err != nil {
-			fmt.Println(err)
+		postData := map[string]string{}
+		sBody := strings.Split(string(body), "&")
+		for _, v := range sBody {
+			postData[strings.Split(v, "=")[0]] = strings.Split(v, "=")[1]
 		}
 
 		var cloth usecase.Cloth
-		cloth.Name = postData["name"].(string)
-		cloth.Price = postData["price"].(string)
-		cloth.Type = postData["type"].(string)
-		cloth.ImageBase64 = postData["image"].(string)
+		cloth.Name = postData["name"]
+		cloth.Price = postData["price"]
+		cloth.Type = postData["type"]
+		cloth.ImageBase64 = postData["image"]
 
 		clothID, err := ch.cu.CreateCloth(&cloth)
 		if err != nil {

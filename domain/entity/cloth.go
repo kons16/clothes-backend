@@ -6,5 +6,4 @@ type Cloth struct {
 	Price    string `db:"price"`
 	ImageUrl string `db:"image_url"`
 	Type     string `db:"type"`
-	User     *User
 }

@@ -40,7 +40,7 @@ func (r *ClothRepository) Create(cloth *entity.Cloth) (int, error) {
 // GetAll は すべての服情報を取得します
 func (r *ClothRepository) GetAll() *[]entity.Cloth {
 	var cloth []entity.Cloth
-	err := r.dbMap.Select(&cloth, `SELECT * FROM clothes`)
+	err := r.dbMap.Select(&cloth, `SELECT id, name, price, image_url, type FROM clothes`)
 	if err != nil {
 		fmt.Println(err)
 		return nil
