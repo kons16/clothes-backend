@@ -1,6 +1,9 @@
 # API仕様
 エンドポイントは `localhost:8000/api/v1/` です。  
-データ形式は `application/json` です。
+データ形式は `application/json` です。  
+
+ブラウザで確認するときは [Talend API Tester](https://chrome.google.com/webstore/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm) 等を利用してください。
+
 
 ## サーバーが起動しているかテスト
 - `GET /hello`  
