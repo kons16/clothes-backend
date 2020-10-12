@@ -46,16 +46,21 @@ func UploadS3(imageBase64 string) string {
 
 	uploader := s3manager.NewUploader(sess)
 
+	// TODO: base64先頭の image/jpeg などを取り除く(正規表現でやったほうがいい)
+	imageBase64 = imageBase64[23:]
+
 	data, _ := base64.StdEncoding.DecodeString(imageBase64)
 	wb := new(bytes.Buffer)
 	wb.Write(data)
 
 	name, _ := MakeRandomStr(10)
+	fileType := "image/jpeg"
 
 	res, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String(os.Getenv("S3_KEY")),
-		Key:    aws.String("clothes/" + name + ".jpeg"),
-		Body:   wb,
+		Bucket:      aws.String(os.Getenv("S3_KEY")),
+		Key:         aws.String("clothes/" + name + ".jpeg"),
+		Body:        wb,
+		ContentType: &fileType,
 	})
 
 	if err != nil {

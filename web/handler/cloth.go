@@ -4,10 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kons16/team7-backend/usecase"
-	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 type ClothHandler struct {
@@ -27,22 +25,12 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 
 	if method == "POST" {
 		defer r.Body.Close()
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		postData := map[string]string{}
-		sBody := strings.Split(string(body), "&")
-		for _, v := range sBody {
-			postData[strings.Split(v, "=")[0]] = strings.Split(v, "=")[1]
-		}
 
 		var cloth usecase.Cloth
-		cloth.Name = postData["name"]
-		cloth.Price = postData["price"]
-		cloth.Type = postData["type"]
-		cloth.ImageBase64 = postData["image"]
+		cloth.Name = r.FormValue("name")
+		cloth.Price = r.FormValue("price")
+		cloth.Type = r.FormValue("type")
+		cloth.ImageBase64 = r.FormValue("image")
 
 		clothID, err := ch.cu.CreateCloth(&cloth)
 		if err != nil {
