@@ -30,7 +30,11 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 		cloth.Name = r.FormValue("name")
 		cloth.Price = r.FormValue("price")
 		cloth.Type = r.FormValue("type")
-		cloth.ImageBase64 = r.FormValue("image")
+		if r.FormValue("image") == "data:," {
+			cloth.ImageBase64 = ""
+		} else {
+			cloth.ImageBase64 = r.FormValue("image")
+		}
 
 		clothID, err := ch.cu.CreateCloth(&cloth)
 		if err != nil {

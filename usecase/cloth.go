@@ -29,7 +29,11 @@ func (cu *ClothUseCase) CreateCloth(cloth *Cloth) (int, error) {
 	clothEntityModel.Name = cloth.Name
 	clothEntityModel.Price = cloth.Price
 	clothEntityModel.Type = cloth.Type
-	clothEntityModel.ImageUrl = service.UploadS3(cloth.ImageBase64)
+	if cloth.ImageBase64 != "" {
+		clothEntityModel.ImageUrl = service.UploadS3(cloth.ImageBase64)
+	} else {
+		clothEntityModel.ImageUrl = "no_url"
+	}
 
 	// MySQL に服情報を追加
 	clothID, err := cu.clothRepo.Create(&clothEntityModel)
