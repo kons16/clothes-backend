@@ -58,13 +58,23 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	if method == "GET" {
 		clothes := ch.cu.GetAll()
-		clothesJson, err := json.Marshal(clothes)
+		var s []interface{}
+		for _, v := range *clothes {
+			m := map[string]string{}
+			m["ID"] = strconv.Itoa(v.ID)
+			m["Name"] = v.Name
+			m["Price"] = v.Price
+			m["ImageUrl"] = v.ImageUrl
+			m["Type"] = v.Type
+			s = append(s, m)
+		}
 
-		ans := map[string]string{
-			"clothes": string(clothesJson),
+		ans := map[string]interface{}{
+			"clothes": s,
 		}
 		res, err := json.Marshal(ans)
 		if err != nil {

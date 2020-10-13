@@ -109,7 +109,9 @@ cookieをHeaderに付与
 #### レスポンス
 ```
 {
-  "clothes": "[{"ID":123,"Name":"乃木坂Tシャツ","Price":"3000","ImageUrl":"https://~~~.jpeg","Type":"a"},
-               {"ID":124,"Name":"ベージュパンツ","Price":"5000","ImageUrl":"no_url","Type":"b"}]"
+  "clothes":[
+    {"ID": "98944203295293444", "ImageUrl": "https:~~~.jpeg", "Name": "乃木坂Tシャツ", "Price": "3000", "type": "a"},
+    {"ID": "98944203295293445", "ImageUrl": "no_url", "Name": "ベージュパンツ", "Price": "5000", "type": "b"}
+  ]
 }
 ```
