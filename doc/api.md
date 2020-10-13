@@ -101,3 +101,15 @@ cookieをHeaderに付与
   "image_id": "123"
 }
 ```
+
+## 服の全取得
+`GET /get_cloth`  
+#### リクエスト
+なし (今後 query で検索できるようにするかも)
+#### レスポンス
+```
+{
+  "clothes": "[{"ID":123,"Name":"乃木坂Tシャツ","Price":"3000","ImageUrl":"https://~~~.jpeg","Type":"a"},
+               {"ID":124,"Name":"ベージュパンツ","Price":"5000","ImageUrl":"no_url","Type":"b"}]"
+}
+```
