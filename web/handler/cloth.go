@@ -20,8 +20,7 @@ func NewClothHandler(clothUseCase *usecase.ClothUseCase) *ClothHandler {
 func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	w.Header().Set("Access-Control-Allow-Origin", "http")
-	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	if method == "POST" {
 		defer r.Body.Close()
