@@ -12,7 +12,7 @@ func NewSessionUseCase(sessionRepo repository.Session) *SessionUseCase {
 	return &SessionUseCase{sessionRepo: sessionRepo}
 }
 
-func (sc *SessionUseCase) CheckBySession(sessionID string) bool {
+func (sc *SessionUseCase) CheckBySession(sessionID string) int {
 	check := sc.sessionRepo.CheckBySession(sessionID)
 	return check
 }

@@ -28,13 +28,10 @@ func (sh *SessionHandler) FindUserBySession(w http.ResponseWriter, r *http.Reque
 		}
 		v := cookie.Value
 
-		checkBool := sh.sc.CheckBySession(v)
+		getUserID := sh.sc.CheckBySession(v)
 		checkStr := ""
-		if err != nil {
-			fmt.Println(err)
-		}
-		// bool を str に変換
-		if checkBool == true {
+		// getUserID があれば true に変更
+		if getUserID != 0 {
 			checkStr = "true"
 		} else {
 			checkStr = "false"

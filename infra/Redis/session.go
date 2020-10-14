@@ -41,16 +41,18 @@ func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) err
 }
 
 // SessionID に紐づく UserID があるかどうか確認
-func (sr *SessionRepository) CheckBySession(sessionID string) bool {
+func (sr *SessionRepository) CheckBySession(sessionID string) int {
 	ctx := context.Background()
 	// TODO: 時間が切れてないか確認する now := time.Now()
 
-	_, err := sr.rdMap.HGet(ctx, sessionID, "UserID").Result()
+	getUserID, err := sr.rdMap.HGet(ctx, sessionID, "UserID").Result()
 	if err != nil {
 		fmt.Println("redis.Client.HGet Error:", err)
-		return false
+		return 0
 	}
-	return true
+
+	getUserIntID, _ := strconv.Atoi(getUserID)
+	return getUserIntID
 }
 
 // Logout は SessionID のカラムを Redis から削除する
