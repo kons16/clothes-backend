@@ -115,3 +115,19 @@ cookieをHeaderに付与
   ]
 }
 ```
+
+## 服の購入
+`POST /buy`  
+#### リクエスト
+cookieをHeaderに付与
+```
+{
+  "cloth_id": "123"
+}
+```
+#### レスポンス
+```
+{
+  "message": "success"
+}
+```
