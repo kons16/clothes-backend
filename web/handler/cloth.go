@@ -86,3 +86,30 @@ func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 		w.Write(res)
 	}
 }
+
+// POST /buy 受け取った服の ID より服を購入する
+func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
+	method := r.Method
+	fmt.Println("[method] " + method)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	if method == "POST" {
+		err := ch.cu.BuyCloth("sessionID", 123)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		ans := map[string]interface{}{
+			"message": "success",
+		}
+		res, err := json.Marshal(ans)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+	}
+}

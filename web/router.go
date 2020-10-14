@@ -28,8 +28,8 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, c
 	http.HandleFunc("/api/v1/cloth", clothHandler.CreateCloth)
 	// GET 服情報の取得
 	http.HandleFunc("/api/v1/get_cloth", clothHandler.GetAll)
-	// POST 購入した服の ID を ユーザーと紐付ける
-	// http.HandleFunc("/api/v1/buy_cloth", nil)
+	// POST 服の購入。 購入した服の ID を ユーザーと紐付ける
+	http.HandleFunc("/api/v1/buy", clothHandler.BuyCloth)
 	// GET 購入した服の情報を持ってくる
 	// http.HandleFunc("/api/v1/my_cloth", nil)
 

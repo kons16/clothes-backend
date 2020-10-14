@@ -51,6 +51,7 @@ func (sr *SessionRepository) CheckBySession(sessionID string) int {
 		return 0
 	}
 
+	// Redis には string で格納されているので int に変換
 	getUserIntID, _ := strconv.Atoi(getUserID)
 	return getUserIntID
 }

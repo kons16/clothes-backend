@@ -13,8 +13,8 @@ func NewSessionUseCase(sessionRepo repository.Session) *SessionUseCase {
 }
 
 func (sc *SessionUseCase) CheckBySession(sessionID string) int {
-	check := sc.sessionRepo.CheckBySession(sessionID)
-	return check
+	userID := sc.sessionRepo.CheckBySession(sessionID)
+	return userID
 }
 
 func (sc *SessionUseCase) Logout(sessionID string) bool {

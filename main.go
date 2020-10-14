@@ -27,7 +27,7 @@ func main() {
 	sessionRepo := Redis.NewSessionRepository(rdMap)
 
 	userUC := usecase.NewUserUseCase(userRepo, sessionRepo)
-	clothUC := usecase.NewClothUseCase(clothRepo)
+	clothUC := usecase.NewClothUseCase(clothRepo, sessionRepo)
 	sessionUC := usecase.NewSessionUseCase(sessionRepo)
 
 	s := web.NewServer(userUC, sessionUC, clothUC)

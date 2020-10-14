@@ -8,7 +8,8 @@ import (
 )
 
 type ClothUseCase struct {
-	clothRepo repository.Cloth
+	clothRepo   repository.Cloth
+	sessionRepo repository.Session
 }
 
 // 新規登録する服の構造体 (まだbase64)
@@ -19,8 +20,8 @@ type Cloth struct {
 	ImageBase64 string
 }
 
-func NewClothUseCase(clothRepo repository.Cloth) *ClothUseCase {
-	return &ClothUseCase{clothRepo: clothRepo}
+func NewClothUseCase(clothRepo repository.Cloth, sessionRepo repository.Session) *ClothUseCase {
+	return &ClothUseCase{clothRepo: clothRepo, sessionRepo: sessionRepo}
 }
 
 // 服を新規追加
@@ -49,4 +50,14 @@ func (cu *ClothUseCase) CreateCloth(cloth *Cloth) (int, error) {
 func (cu *ClothUseCase) GetAll() *[]entity.Cloth {
 	clothes := cu.clothRepo.GetAll()
 	return clothes
+}
+
+// 服を購入
+func (cu *ClothUseCase) BuyCloth(sessionID string, clothID int) error {
+	userID := cu.sessionRepo.CheckBySession(sessionID)
+	err := cu.clothRepo.CreateUserCloth(userID, clothID)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return err
 }
