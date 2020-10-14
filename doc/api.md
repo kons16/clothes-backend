@@ -95,10 +95,10 @@ cookieをHeaderに付与
 }
 ```
 #### レスポンス
-アップロードされた画像の id を返します。
+アップロードされた服の id を返します。
 ```
 {
-  "image_id": "123"
+  cloth_id: "123"
 }
 ```
 
@@ -110,8 +110,8 @@ cookieをHeaderに付与
 ```
 {
   "clothes":[
-    {"ID": "98944203295293444", "ImageUrl": "https:~~~.jpeg", "Name": "乃木坂Tシャツ", "Price": "3000", "type": "a"},
-    {"ID": "98944203295293445", "ImageUrl": "no_url", "Name": "ベージュパンツ", "Price": "5000", "type": "b"}
+    {"ID": "123", "ImageUrl": "https:~~~.jpeg", "Name": "乃木坂Tシャツ", "Price": "3000", "type": "a"},
+    {"ID": "124", "ImageUrl": "no_url", "Name": "ベージュパンツ", "Price": "5000", "type": "b"}
   ]
 }
 ```
