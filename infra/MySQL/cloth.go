@@ -61,3 +61,21 @@ func (r *ClothRepository) CreateUserCloth(userID int, clothID int) error {
 	)
 	return err
 }
+
+// GetBuyCloth は ユーザーが購入した服情報を返す
+func (r *ClothRepository) GetBuyCloth(userID int) *[]entity.Cloth {
+	var clothIDs []int
+	err := r.dbMap.Select(&clothIDs, `SELECT cloth_id FROM user_clothes`)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	var cloth []entity.Cloth
+	err = r.dbMap.Select(&cloth, `SELECT id, name, price, image_url, type FROM clothes WHERE id IN ?`, clothIDs)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return &cloth
+}

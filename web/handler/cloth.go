@@ -113,3 +113,37 @@ func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 		w.Write(res)
 	}
 }
+
+// GET /my_cloth 購入した服の情報を取得する
+func (ch *ClothHandler) GetBuyCloth(w http.ResponseWriter, r *http.Request) {
+	method := r.Method
+	fmt.Println("[method] " + method)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	if method == "GET" {
+		clothes := ch.cu.GetBuyCloth(123)
+
+		var s []interface{}
+		for _, v := range *clothes {
+			m := map[string]string{}
+			m["ID"] = strconv.Itoa(v.ID)
+			m["Name"] = v.Name
+			m["Price"] = v.Price
+			m["ImageUrl"] = v.ImageUrl
+			m["Type"] = v.Type
+			s = append(s, m)
+		}
+
+		ans := map[string]interface{}{
+			"clothes": s,
+		}
+		res, err := json.Marshal(ans)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+	}
+}

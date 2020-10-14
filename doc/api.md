@@ -131,3 +131,17 @@ cookieをHeaderに付与
   "message": "success"
 }
 ```
+
+## 購入した服の取得
+`GET /my_cloth`  
+#### リクエスト
+cookieをHeaderに付与
+#### レスポンス
+```
+{
+  "clothes":[
+    {"ID": "123", "ImageUrl": "https:~~~.jpeg", "Name": "乃木坂Tシャツ", "Price": "3000", "type": "a"},
+    {"ID": "124", "ImageUrl": "no_url", "Name": "ベージュパンツ", "Price": "5000", "type": "b"}
+  ]
+}
+```
