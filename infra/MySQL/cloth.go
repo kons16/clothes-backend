@@ -45,6 +45,19 @@ func (r *ClothRepository) GetAll() *[]entity.Cloth {
 		fmt.Println(err)
 		return nil
 	}
-
 	return &cloth
+}
+
+// CreateUserCloth は　user_clothesテーブル に userID と clothID を追加します
+func (r *ClothRepository) CreateUserCloth(userID int, clothID int) error {
+	now := time.Now()
+	id, _ := r.generateID()
+
+	_, err := r.dbMap.Exec(
+		`INSERT INTO user_clothes
+			(id, user_id, cloth_id, created_at, updated_at)
+			VALUES (?, ?, ?, ?, ?)`,
+		id, userID, clothID, now, now,
+	)
+	return err
 }
