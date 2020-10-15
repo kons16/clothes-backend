@@ -39,6 +39,7 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 		clothID, err := ch.cu.CreateCloth(&cloth)
 		if err != nil {
 			fmt.Println(err)
+			return
 		}
 
 		ans := map[string]string{
@@ -92,7 +93,10 @@ func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "POST" {
 		cookie, err := r.Cookie("sessionID")
@@ -115,7 +119,8 @@ func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			return
 		}
-		clothID := postData["clothID"].(int)
+
+		clothID, _ := strconv.Atoi(postData["clothID"].(string))
 
 		err = ch.cu.BuyCloth(v, clothID)
 		if err != nil {
@@ -141,7 +146,10 @@ func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 func (ch *ClothHandler) GetBuyCloth(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "GET" {
 		cookie, err := r.Cookie("sessionID")
@@ -150,9 +158,7 @@ func (ch *ClothHandler) GetBuyCloth(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		v := cookie.Value
-		vi, _ := strconv.Atoi(v)
-
-		clothes := ch.cu.GetBuyCloth(vi)
+		clothes := ch.cu.GetBuyCloth(v)
 
 		var s []interface{}
 		for _, v := range *clothes {

@@ -63,7 +63,8 @@ func (cu *ClothUseCase) BuyCloth(sessionID string, clothID int) error {
 }
 
 // 購入した服を取得
-func (cu *ClothUseCase) GetBuyCloth(userID int) *[]entity.Cloth {
+func (cu *ClothUseCase) GetBuyCloth(sessionID string) *[]entity.Cloth {
+	userID := cu.sessionRepo.CheckBySession(sessionID)
 	clothes := cu.clothRepo.GetBuyCloth(userID)
 	return clothes
 }

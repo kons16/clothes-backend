@@ -64,18 +64,30 @@ func (r *ClothRepository) CreateUserCloth(userID int, clothID int) error {
 
 // GetBuyCloth は ユーザーが購入した服情報を返す
 func (r *ClothRepository) GetBuyCloth(userID int) *[]entity.Cloth {
-	var clothIDs []int
-	err := r.dbMap.Select(&clothIDs, `SELECT cloth_id FROM user_clothes`)
+	var userCloths []interface{}
+	err := r.dbMap.Select(&userCloths, `SELECT cloth_id FROM user_clothes WHERE user_id = ?`, userID)
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
 
-	var cloth []entity.Cloth
-	err = r.dbMap.Select(&cloth, `SELECT id, name, price, image_url, type FROM clothes WHERE id IN ?`, clothIDs)
+	q := `SELECT id, name, price, image_url, type FROM clothes WHERE id IN (?)`
+	sql, params, err := sqlx.In(q, userCloths)
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
-	return &cloth
+
+	var cloths []entity.Cloth
+	// fmt.Println(sql)   SELECT id, name, price, image_url, type FROM clothes WHERE id IN (?, ?)
+	// fmt.Println(params)   [{98947064062279683} {98947064062279684}]
+
+	err = r.dbMap.Select(&cloths, sql, params...)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	fmt.Println(&cloths)
+	return &cloths
 }
