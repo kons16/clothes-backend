@@ -48,3 +48,8 @@ CREATE TABLE IF NOT EXISTS cordinates(
 	FOREIGN KEY (`top_cloth_id`) REFERENCES `clothes` (`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`pant_cloth_id`) REFERENCES `clothes` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+/*  服の初期データ  */
+INSERT INTO clothes (id, name, price, image_url, type) VALUES (101, "Tシャツ-S", "data:,", "a")
+INSERT INTO clothes (id, name, price, image_url, type) VALUES (102, "Tシャツ-M", "data:,", "a")
