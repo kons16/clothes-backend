@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kons16/team7-backend/usecase"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -94,7 +95,29 @@ func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	if method == "POST" {
-		err := ch.cu.BuyCloth("sessionID", 123)
+		cookie, err := r.Cookie("sessionID")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		v := cookie.Value
+
+		defer r.Body.Close()
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		var postData map[string]interface{}
+		err = json.Unmarshal(body, &postData)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		clothID := postData["clothID"].(int)
+
+		err = ch.cu.BuyCloth(v, clothID)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -121,7 +144,15 @@ func (ch *ClothHandler) GetBuyCloth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	if method == "GET" {
-		clothes := ch.cu.GetBuyCloth(123)
+		cookie, err := r.Cookie("sessionID")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		v := cookie.Value
+		vi, _ := strconv.Atoi(v)
+
+		clothes := ch.cu.GetBuyCloth(vi)
 
 		var s []interface{}
 		for _, v := range *clothes {
