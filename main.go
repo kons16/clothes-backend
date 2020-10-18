@@ -24,13 +24,15 @@ func main() {
 
 	userRepo := MySQL.NewUserRepository(dbMap)
 	clothRepo := MySQL.NewClothRepository(dbMap)
+	cordiRepo := MySQL.NewCordinateRepository(dbMap)
 	sessionRepo := Redis.NewSessionRepository(rdMap)
 
 	userUC := usecase.NewUserUseCase(userRepo, sessionRepo)
 	clothUC := usecase.NewClothUseCase(clothRepo, sessionRepo)
+	cordiUC := usecase.NewCordinateUseCase(cordiRepo)
 	sessionUC := usecase.NewSessionUseCase(sessionRepo)
 
-	s := web.NewServer(userUC, sessionUC, clothUC)
+	s := web.NewServer(userUC, sessionUC, clothUC, cordiUC)
 
 	fmt.Println("Server Start!!")
 	s.ListenAndServe()

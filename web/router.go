@@ -6,13 +6,14 @@ import (
 	"net/http"
 )
 
-func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, clothUC *usecase.ClothUseCase) *http.Server {
+func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, clothUC *usecase.ClothUseCase, cordiUC *usecase.CordinateUseCase) *http.Server {
 	var s http.Server
 	s.Addr = ":8000"
 
 	userHandler := handler.NewUserHandler(userUC)
 	sessionHandler := handler.NewSessionHandler(sessionUC)
 	clothHandler := handler.NewClothHandler(clothUC)
+	cordinateHandler := handler.NewCordinateHandler(cordiUC)
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/api/v1/hello", handler.Hello)
@@ -24,6 +25,7 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, c
 	http.HandleFunc("/api/v1/is_login", sessionHandler.FindUserBySession)
 	// GET user_sessionテーブル から sessionID のカラムを削除する
 	http.HandleFunc("/api/v1/logout", sessionHandler.Logout)
+
 	// POST 服情報の追加
 	http.HandleFunc("/api/v1/cloth", clothHandler.CreateCloth)
 	// GET 服情報の取得
@@ -32,6 +34,11 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, c
 	http.HandleFunc("/api/v1/buy", clothHandler.BuyCloth)
 	// GET 購入した服の情報を持ってくる
 	http.HandleFunc("/api/v1/my_cloth", clothHandler.GetBuyCloth)
+
+	// POST コーディネート情報の追加
+	http.HandleFunc("/api/v1/cordinate", cordinateHandler.CreateCordinate)
+	// GET 自分のコーディネートの取得
+	http.HandleFunc("/api/v1/get_cordinate", cordinateHandler.Get)
 
 	return &s
 }
