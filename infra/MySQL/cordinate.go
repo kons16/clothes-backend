@@ -21,12 +21,12 @@ func (r *CordinateRepository) generateID() (int, error) {
 	return id, err
 }
 
-// Create は服を新規で追加します
+// Create はコーディネートを新規で追加します
 func (r *CordinateRepository) Create(cloth *entity.Cordinate) *entity.Cordinate {
 	return nil
 }
 
-// GetAll は すべての服情報を取得します
+// GetAll は すべてのコーディネート情報を取得します
 func (r *CordinateRepository) Get(userID int) *[]entity.Cordinate {
 	return nil
 }
