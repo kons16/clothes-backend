@@ -1,9 +1,9 @@
 # team7-backend
-標準ライブラリで作る、DDD構成のAPIサーバー.  
+標準ライブラリで作る, DDD構成のAPIサーバー. ([フロントエンドのリポジトリ](https://github.com/sunakane/team7-mock)
+)  
 [構成の参考にしたドキュメント](https://github.com/camphor-/relaym-server/blob/master/docs/application_architecture.md)  
 
 APIの仕様は [doc/api.md](https://github.com/kons16/team7-backend/blob/master/doc/api.md) を参考にしてください.  
-[フロントエンドのリポジトリ](https://github.com/sunakane/team7-mock)
   
 ## 環境構築
 ```
@@ -17,20 +17,27 @@ DBの起動とS3へのアクセスには `.env` を書き込む必要があり�
 ### MySQL
 ユーザー情報(usersテーブル), 服情報(clothesテーブル), コーディネート情報(cordinatesテーブル) は MySQL に保存しています.
 ```
-$ docker exec -it [container_id] /bin/bash
+$ docker exec -it [db_container_id] /bin/bash
 
 # mysql -u user -p
 
 > USE [database_name];
 > SHOW TABLES;
 ```
-マイグレーションには sql-migrate を使用しています.
+マイグレーションには sql-migrate を使用しています.  
+```
+$ docker exec -it [api_container_id] sh
+
+# sql-migrate new table_name
+
+# sql-migrate up
+```
 
 ### Redis
 ユーザーの SessionID の保存には Redis を使用しています.  
 Redis には key が SessionID, field が UserID と ExpiresAt をhashで保存しています.  
 ```
-$ docker exec -it [container_id] sh
+$ docker exec -it [redis_container_id] sh
 
 # redis-cli
 
