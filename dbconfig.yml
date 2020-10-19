@@ -1,0 +1,5 @@
+development:
+  dialect: mysql
+  datasource: <%= ENV['DB_USER_NAME'] %>:<%= ENV['DB_PASSWORD'] %>@tcp(<%= ENV['DB_IP_ADDRESS'] %>:<%= ENV['DB_PORT'] %>)/<%= ENV['DB_NAME'] %>?parseTime=true
+  dir: db/migrations
+  table: migrations
