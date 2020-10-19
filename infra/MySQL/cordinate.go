@@ -1,6 +1,7 @@
 package MySQL
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/kons16/team7-backend/domain/entity"
 	"time"
@@ -36,7 +37,14 @@ func (r *CordinateRepository) Create(cordinate *entity.Cordinate) error {
 	return err
 }
 
-// GetAll は すべてのコーディネート情報を取得します
+// Get は ユーザーに紐づく全てのコーディネート情報を取得します
 func (r *CordinateRepository) Get(userID int) *[]entity.Cordinate {
-	return nil
+	var cordinates []entity.Cordinate
+	err := r.dbMap.Select(&cordinates, `SELECT id, title, top_cloth_id, pant_cloth_id FROM cordinates WHERE user_id = ?`, userID)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return &cordinates
 }

@@ -71,8 +71,41 @@ func (cdh *CordinateHandler) CreateCordinate(w http.ResponseWriter, r *http.Requ
 func (cdh *CordinateHandler) Get(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "GET" {
+		cookie, err := r.Cookie("sessionID")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		v := cookie.Value
+
+		clothes := cdh.cdu.GetAll(v)
+
+		var s []interface{}
+		for _, v := range *clothes {
+			m := map[string]string{}
+			m["ID"] = strconv.Itoa(v.ID)
+			m["Name"] = v.Title
+			m["Price"] = strconv.Itoa(v.TopClothID)
+			m["ImageUrl"] = strconv.Itoa(v.PantClothID)
+			s = append(s, m)
+		}
+
+		ans := map[string]interface{}{
+			"clothes": s,
+		}
+		res, err := json.Marshal(ans)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
 	}
 }

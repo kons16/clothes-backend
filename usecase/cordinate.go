@@ -30,6 +30,9 @@ func (cdu *CordinateUseCase) CreateCordinate(cordinate *entity.Cordinate, sessio
 }
 
 // すべてのコーディネート情報を取得
-func (cdu *CordinateUseCase) GetAll(userID int) *[]entity.Cordinate {
-	return nil
+func (cdu *CordinateUseCase) GetAll(sessionID string) *[]entity.Cordinate {
+	// sessionID から userID を取得
+	userID := cdu.sessionRepo.CheckBySession(sessionID)
+	cordinates := cdu.cordiRepo.Get(userID)
+	return cordinates
 }
