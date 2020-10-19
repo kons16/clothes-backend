@@ -3,6 +3,7 @@ package MySQL
 import (
 	"github.com/jmoiron/sqlx"
 	"github.com/kons16/team7-backend/domain/entity"
+	"time"
 )
 
 // CordinateRepository は repository.CordinateRepository を満たす構造体
@@ -22,8 +23,17 @@ func (r *CordinateRepository) generateID() (int, error) {
 }
 
 // Create はコーディネートを新規で追加します
-func (r *CordinateRepository) Create(cloth *entity.Cordinate) *entity.Cordinate {
-	return nil
+func (r *CordinateRepository) Create(cordinate *entity.Cordinate) error {
+	now := time.Now()
+	id, _ := r.generateID()
+
+	_, err := r.dbMap.Exec(
+		`INSERT INTO cordinates
+			(id, title, top_cloth_id, pant_cloth_id, user_id, created_at, updated_at)
+			VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		id, cordinate.Title, cordinate.TopClothID, cordinate.PantClothID, cordinate.UserID, now, now,
+	)
+	return err
 }
 
 // GetAll は すべてのコーディネート情報を取得します

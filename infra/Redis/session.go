@@ -28,6 +28,8 @@ func (sr *SessionRepository) CreateUserSession(userID int, sessionID string) err
 		"ExpiresAt": expiresAt.Format(layout),
 	}
 
+	// TODO: 既にログインしているときの処理
+
 	// key: SessionID, Hash [ UserID, ExpiresAt ]
 	for field, val := range m {
 		fmt.Println("Inserting", "field:", field, "val:", val)

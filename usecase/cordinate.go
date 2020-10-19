@@ -13,12 +13,12 @@ func NewCordinateUseCase(cordiRepo repository.Cordinate) *CordinateUseCase {
 	return &CordinateUseCase{cordiRepo: cordiRepo}
 }
 
-// 服を新規追加
-func (cdu *CordinateUseCase) CreateCloth(cloth *entity.Cordinate) *entity.Cordinate {
+// コーディネートを新規追加
+func (cdu *CordinateUseCase) CreateCordinate(cordinate *entity.Cordinate) error {
 	return nil
 }
 
-// すべての服情報を取得
+// すべてのコーディネート情報を取得
 func (cdu *CordinateUseCase) GetAll(userID int) *[]entity.Cordinate {
 	return nil
 }
