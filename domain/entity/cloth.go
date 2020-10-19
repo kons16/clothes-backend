@@ -5,5 +5,7 @@ type Cloth struct {
 	Name     string `db:"name"`
 	Price    string `db:"price"`
 	ImageUrl string `db:"image_url"`
-	Type     string `db:"type"`
+	// 服の追加する際に初期は base64 で受け取る
+	ImageBase64 string
+	Type        string `db:"type"`
 }

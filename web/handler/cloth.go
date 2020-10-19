@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kons16/team7-backend/domain/entity"
 	"github.com/kons16/team7-backend/usecase"
 	"io/ioutil"
 	"net/http"
@@ -26,17 +27,18 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 	if method == "POST" {
 		defer r.Body.Close()
 
-		var cloth usecase.Cloth
-		cloth.Name = r.FormValue("name")
-		cloth.Price = r.FormValue("price")
-		cloth.Type = r.FormValue("type")
+		var clothEntityModel entity.Cloth
+
+		clothEntityModel.Name = r.FormValue("name")
+		clothEntityModel.Price = r.FormValue("price")
+		clothEntityModel.Type = r.FormValue("type")
 		if r.FormValue("image") == "data:," {
-			cloth.ImageBase64 = ""
+			clothEntityModel.ImageBase64 = ""
 		} else {
-			cloth.ImageBase64 = r.FormValue("image")
+			clothEntityModel.ImageBase64 = r.FormValue("image")
 		}
 
-		clothID, err := ch.cu.CreateCloth(&cloth)
+		clothID, err := ch.cu.CreateCloth(&clothEntityModel)
 		if err != nil {
 			fmt.Println(err)
 			return

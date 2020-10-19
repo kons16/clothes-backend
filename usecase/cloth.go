@@ -25,19 +25,16 @@ func NewClothUseCase(clothRepo repository.Cloth, sessionRepo repository.Session)
 }
 
 // 服を新規追加
-func (cu *ClothUseCase) CreateCloth(cloth *Cloth) (int, error) {
-	var clothEntityModel entity.Cloth
-	clothEntityModel.Name = cloth.Name
-	clothEntityModel.Price = cloth.Price
-	clothEntityModel.Type = cloth.Type
+func (cu *ClothUseCase) CreateCloth(cloth *entity.Cloth) (int, error) {
+	// Base64 で画像を受け取っていたらS3にアップロードする
 	if cloth.ImageBase64 != "" {
-		clothEntityModel.ImageUrl = service.UploadS3(cloth.ImageBase64)
+		cloth.ImageUrl = service.UploadS3(cloth.ImageBase64)
 	} else {
-		clothEntityModel.ImageUrl = "no_url"
+		cloth.ImageUrl = "no_url"
 	}
 
 	// MySQL に服情報を追加
-	clothID, err := cu.clothRepo.Create(&clothEntityModel)
+	clothID, err := cu.clothRepo.Create(cloth)
 	if err != nil {
 		fmt.Print(err)
 		return 0, err
