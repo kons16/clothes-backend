@@ -19,6 +19,10 @@ func NewSessionHandler(sessionUseCase *usecase.SessionUseCase) *SessionHandler {
 func (sh *SessionHandler) FindUserBySession(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "GET" {
 		cookie, err := r.Cookie("sessionID")
@@ -56,6 +60,10 @@ func (sh *SessionHandler) FindUserBySession(w http.ResponseWriter, r *http.Reque
 func (sh *SessionHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "GET" {
 		cookie, err := r.Cookie("sessionID")

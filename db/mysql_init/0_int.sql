@@ -45,8 +45,6 @@ CREATE TABLE IF NOT EXISTS cordinates(
     `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-	FOREIGN KEY (`top_cloth_id`) REFERENCES `clothes` (`id`) ON DELETE CASCADE,
-	FOREIGN KEY (`pant_cloth_id`) REFERENCES `clothes` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
 
 

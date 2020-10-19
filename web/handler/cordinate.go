@@ -7,6 +7,7 @@ import (
 	"github.com/kons16/team7-backend/usecase"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type CordinateHandler struct {
@@ -21,7 +22,10 @@ func NewCordinateHandler(cordinateUseCase *usecase.CordinateUseCase) *CordinateH
 func (cdh *CordinateHandler) CreateCordinate(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "POST" {
 		defer r.Body.Close()
@@ -29,6 +33,8 @@ func (cdh *CordinateHandler) CreateCordinate(w http.ResponseWriter, r *http.Requ
 		if err != nil {
 			fmt.Println(err)
 		}
+
+		cookie, err := r.Cookie("sessionID")
 
 		var postData map[string]interface{}
 		err = json.Unmarshal(body, &postData)
@@ -38,9 +44,9 @@ func (cdh *CordinateHandler) CreateCordinate(w http.ResponseWriter, r *http.Requ
 
 		var cordinate entity.Cordinate
 		cordinate.Title = postData["title"].(string)
-		cordinate.TopClothID = postData["top_cloth_id"].(string)
-		cordinate.PantClothID = postData["pant_cloth_id"].(string)
-		sessionID := postData["session_id"].(string)
+		cordinate.TopClothID, _ = strconv.Atoi(postData["top_cloth_id"].(string))
+		cordinate.PantClothID, _ = strconv.Atoi(postData["pant_cloth_id"].(string))
+		sessionID := cookie.Value
 
 		err = cdh.cdu.CreateCordinate(&cordinate, sessionID)
 		if err != nil {
