@@ -10,9 +10,10 @@ $ git clone https://github.com/kons16/team7-backend.git
 $ cd team7-backend
 $ docker-compose up
 ```
-起動には `.env` を書き込む必要があります.  
+DBの起動とS3へのアクセスには `.env` を書き込む必要があります.  
 
-## MySQL
+## データベース
+### MySQL
 ユーザー情報(usersテーブル), 服情報(clothesテーブル), コーディネート情報(cordinatesテーブル) は MySQL に保存しています.
 ```
 $ docker exec -it [container_id] /bin/bash
@@ -22,8 +23,9 @@ $ docker exec -it [container_id] /bin/bash
 > USE [database_name];
 > SHOW TABLES;
 ```
+マイグレーションには sql-migrate を使用しています.
 
-## Redis
+### Redis
 ユーザーの SessionID の保存には Redis を使用しています.  
 Redis には key が SessionID, field が UserID と ExpiresAt をhashで保存しています.  
 ```
