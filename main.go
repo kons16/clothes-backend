@@ -29,7 +29,7 @@ func main() {
 
 	userUC := usecase.NewUserUseCase(userRepo, sessionRepo)
 	clothUC := usecase.NewClothUseCase(clothRepo, sessionRepo)
-	cordiUC := usecase.NewCordinateUseCase(cordiRepo)
+	cordiUC := usecase.NewCordinateUseCase(cordiRepo, sessionRepo)
 	sessionUC := usecase.NewSessionUseCase(sessionRepo)
 
 	s := web.NewServer(userUC, sessionUC, clothUC, cordiUC)

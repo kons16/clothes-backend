@@ -12,6 +12,7 @@ func NewSessionUseCase(sessionRepo repository.Session) *SessionUseCase {
 	return &SessionUseCase{sessionRepo: sessionRepo}
 }
 
+// セッションID から userID を取得
 func (sc *SessionUseCase) CheckBySession(sessionID string) int {
 	userID := sc.sessionRepo.CheckBySession(sessionID)
 	return userID
