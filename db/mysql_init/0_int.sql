@@ -49,5 +49,5 @@ CREATE TABLE IF NOT EXISTS cordinates(
 
 
 /*  服の初期データ  */
-/* INSERT INTO clothes (id, name, price, image_url, type) VALUES (101, "Tシャツ-S", "data:,", "a") */
-/* INSERT INTO clothes (id, name, price, image_url, type) VALUES (102, "Tシャツ-M", "data:,", "a") */
+INSERT INTO clothes (id, name, price, image_url, type) VALUES (101, "T-shirt-S", "1500", "no_url", "a");
+INSERT INTO clothes (id, name, price, image_url, type) VALUES (102, "T-shirt-M", "2000", "no_url", "a");
