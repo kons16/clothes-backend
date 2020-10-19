@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS cordinates(
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
     `deleted_at` TIMESTAMP NULL,
-	FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
 
 
 /*  服の初期データ  */
-INSERT INTO clothes (id, name, price, image_url, type) VALUES (101, "Tシャツ-S", "data:,", "a")
-INSERT INTO clothes (id, name, price, image_url, type) VALUES (102, "Tシャツ-M", "data:,", "a")
+/* INSERT INTO clothes (id, name, price, image_url, type) VALUES (101, "Tシャツ-S", "data:,", "a") */
+/* INSERT INTO clothes (id, name, price, image_url, type) VALUES (102, "Tシャツ-M", "data:,", "a") */

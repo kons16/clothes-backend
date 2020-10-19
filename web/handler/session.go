@@ -62,7 +62,7 @@ func (sh *SessionHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[method] " + method)
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 	if method == "GET" {
