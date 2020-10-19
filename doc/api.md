@@ -21,6 +21,7 @@
 ## 新規登録
 `POST /user`
 #### リクエスト
+`sex` が `0` のとき男性、`1` のとき女性
 ```
 {
   "name": "kono",
@@ -98,7 +99,7 @@ cookieをHeaderに付与
 アップロードされた服の id を返します。
 ```
 {
-  cloth_id: "123"
+  "cloth_id": "123"
 }
 ```
 
@@ -143,5 +144,24 @@ cookieをHeaderに付与
     {"ID": "123", "ImageUrl": "https:~~~.jpeg", "Name": "乃木坂Tシャツ", "Price": "3000", "type": "a"},
     {"ID": "124", "ImageUrl": "no_url", "Name": "ベージュパンツ", "Price": "5000", "type": "b"}
   ]
+}
+```
+
+## コーディネート関連
+## コーディネートの新規追加
+`POST /cordinate`  
+#### リクエスト
+cookie を Header に付与。
+```
+{
+  "title": "マイコーデ１",
+  "top_cloth_id": "123",
+  "pant_cloth_id": "456"
+}
+```
+#### レスポンス
+```
+{
+  "message": "success"
 }
 ```
