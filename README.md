@@ -10,6 +10,7 @@ $ git clone https://github.com/kons16/team7-backend.git
 $ cd team7-backend
 $ docker-compose up
 ```
+起動には `.env` を書き込む必要があります.  
 
 ## Redis
 ユーザーの SessionID の保存には Redis を使用しています.  
