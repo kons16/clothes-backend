@@ -91,3 +91,26 @@ func (r *ClothRepository) GetBuyCloth(userID int) *[]entity.Cloth {
 	fmt.Println(&cloths)
 	return &cloths
 }
+
+// GetByIDs は 服ID のすべての服情報を返す
+func (r *ClothRepository) GetByIDs(clothIDs []int) *[]entity.Cloth {
+	q := `SELECT id, name, price, image_url, type FROM clothes WHERE id IN (?)`
+	sql, params, err := sqlx.In(q, clothIDs)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	var cloths []entity.Cloth
+	// fmt.Println(sql)   SELECT id, name, price, image_url, type FROM clothes WHERE id IN (?, ?)
+	// fmt.Println(params)   [{98947064062279683} {98947064062279684}]
+
+	err = r.dbMap.Select(&cloths, sql, params...)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	fmt.Println(&cloths)
+	return &cloths
+}

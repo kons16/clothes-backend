@@ -7,4 +7,5 @@ type Cloth interface {
 	GetAll() *[]entity.Cloth
 	CreateUserCloth(userID int, clothID int) error
 	GetBuyCloth(userID int) *[]entity.Cloth
+	GetByIDs(clothIDs []int) *[]entity.Cloth
 }
