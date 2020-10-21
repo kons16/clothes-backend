@@ -84,15 +84,48 @@ func (cdh *CordinateHandler) Get(w http.ResponseWriter, r *http.Request) {
 		}
 		v := cookie.Value
 
-		clothes := cdh.cdu.GetAll(v)
+		cordinates := cdh.cdu.GetAll(v)
+		// TopClothIDs, PantClothIDs から, その服情報を取得する
+		var topIDs []int
+		var pantIDs []int
+		for _, v := range *cordinates {
+			topIDs = append(topIDs, v.TopClothID)
+			pantIDs = append(pantIDs, v.TopClothID)
+		}
 
-		var s []interface{}
-		for _, v := range *clothes {
+		topClothes := cdh.cdu.GetClothes(topIDs)
+		pantClothes := cdh.cdu.GetClothes(topIDs)
+		var tops []interface{}  // トップの詳細情報を格納
+		var pants []interface{} // パンツの詳細情報を格納
+
+		for _, v := range *topClothes {
 			m := map[string]string{}
 			m["ID"] = strconv.Itoa(v.ID)
-			m["Name"] = v.Title
-			m["Price"] = strconv.Itoa(v.TopClothID)
-			m["ImageUrl"] = strconv.Itoa(v.PantClothID)
+			m["Name"] = v.Name
+			m["Price"] = v.Price
+			m["ImageUrl"] = v.ImageUrl
+			m["Type"] = v.Type
+			tops = append(tops, m)
+		}
+
+		for _, v := range *pantClothes {
+			m := map[string]string{}
+			m["ID"] = strconv.Itoa(v.ID)
+			m["Name"] = v.Name
+			m["Price"] = v.Price
+			m["ImageUrl"] = v.ImageUrl
+			m["Type"] = v.Type
+			pants = append(pants, m)
+		}
+
+		// レスポンスデータ
+		var s []interface{}
+		for i, v := range *cordinates {
+			m := map[string]string{}
+			m["ID"] = strconv.Itoa(v.ID)
+			m["Title"] = v.Title
+			m["Top"] = tops[i].(string)
+			m["Pant"] = pants[i].(string)
 			s = append(s, m)
 		}
 

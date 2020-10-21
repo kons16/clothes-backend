@@ -8,11 +8,12 @@ import (
 
 type CordinateUseCase struct {
 	cordiRepo   repository.Cordinate
+	clothRepo   repository.Cloth
 	sessionRepo repository.Session
 }
 
-func NewCordinateUseCase(cordiRepo repository.Cordinate, sessionRepo repository.Session) *CordinateUseCase {
-	return &CordinateUseCase{cordiRepo: cordiRepo, sessionRepo: sessionRepo}
+func NewCordinateUseCase(cordiRepo repository.Cordinate, sessionRepo repository.Session, clothRepo repository.Cloth) *CordinateUseCase {
+	return &CordinateUseCase{cordiRepo: cordiRepo, sessionRepo: sessionRepo, clothRepo: clothRepo}
 }
 
 // コーディネートを新規追加
@@ -35,4 +36,10 @@ func (cdu *CordinateUseCase) GetAll(sessionID string) *[]entity.Cordinate {
 	userID := cdu.sessionRepo.CheckBySession(sessionID)
 	cordinates := cdu.cordiRepo.Get(userID)
 	return cordinates
+}
+
+// 服IDs の服情報を全て取得
+func (cdu *CordinateUseCase) GetClothes(ids []int) *[]entity.Cloth {
+	clothes := cdu.clothRepo.GetByIDs(ids)
+	return clothes
 }
