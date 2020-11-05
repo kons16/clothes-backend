@@ -1,6 +1,7 @@
 # API仕様
 エンドポイントは `localhost:8000/api/v1/` です。  
 データ形式は `application/json` です。  
+未ログインユーザーがアクセスできないURLに入ると `301` で `/` にリダイレクトさせます。
 
 ブラウザで確認するときは [Talend API Tester](https://chrome.google.com/webstore/detail/talend-api-tester-free-ed/aejoelaoggembcahagimdiliamlcdmfm) 等を利用してください。
 

@@ -12,10 +12,11 @@ import (
 
 type ClothHandler struct {
 	cu *usecase.ClothUseCase
+	sc *usecase.SessionUseCase
 }
 
-func NewClothHandler(clothUseCase *usecase.ClothUseCase) *ClothHandler {
-	return &ClothHandler{cu: clothUseCase}
+func NewClothHandler(clothUseCase *usecase.ClothUseCase, sessionUseCase *usecase.SessionUseCase) *ClothHandler {
+	return &ClothHandler{cu: clothUseCase, sc: sessionUseCase}
 }
 
 // POST /post_cloth 新しくclothesテーブルに服を追加する
@@ -23,8 +24,22 @@ func (ch *ClothHandler) CreateCloth(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if method == "POST" {
+		cookie, err := r.Cookie("sessionID")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		v := cookie.Value
+
+		getUserID := ch.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
+
 		defer r.Body.Close()
 
 		var clothEntityModel entity.Cloth
@@ -63,8 +78,22 @@ func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	method := r.Method
 	fmt.Println("[method] " + method)
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if method == "GET" {
+		cookie, err := r.Cookie("sessionID")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		v := cookie.Value
+
+		getUserID := ch.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
+
 		clothes := ch.cu.GetAll()
 		var s []interface{}
 		for _, v := range *clothes {
@@ -107,6 +136,11 @@ func (ch *ClothHandler) BuyCloth(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		v := cookie.Value
+
+		getUserID := ch.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
 
 		defer r.Body.Close()
 		body, err := ioutil.ReadAll(r.Body)
@@ -160,6 +194,12 @@ func (ch *ClothHandler) GetBuyCloth(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		v := cookie.Value
+
+		getUserID := ch.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
+
 		clothes := ch.cu.GetBuyCloth(v)
 
 		var s []interface{}

@@ -12,10 +12,11 @@ import (
 
 type CordinateHandler struct {
 	cdu *usecase.CordinateUseCase
+	sc  *usecase.SessionUseCase
 }
 
-func NewCordinateHandler(cordinateUseCase *usecase.CordinateUseCase) *CordinateHandler {
-	return &CordinateHandler{cdu: cordinateUseCase}
+func NewCordinateHandler(cordinateUseCase *usecase.CordinateUseCase, sessionUseCase *usecase.SessionUseCase) *CordinateHandler {
+	return &CordinateHandler{cdu: cordinateUseCase, sc: sessionUseCase}
 }
 
 // POST /cordinate 新しく cordinateテーブル にコーディネートを追加する
@@ -33,8 +34,13 @@ func (cdh *CordinateHandler) CreateCordinate(w http.ResponseWriter, r *http.Requ
 		if err != nil {
 			fmt.Println(err)
 		}
-
 		cookie, err := r.Cookie("sessionID")
+		v := cookie.Value
+
+		getUserID := cdh.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
 
 		var postData map[string]interface{}
 		err = json.Unmarshal(body, &postData)
@@ -83,6 +89,11 @@ func (cdh *CordinateHandler) Get(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		v := cookie.Value
+
+		getUserID := cdh.sc.CheckBySession(v)
+		if getUserID == 0 {
+			http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		}
 
 		cordinates := cdh.cdu.GetAll(v)
 		// TopClothIDs, PantClothIDs から, その服情報を取得する
