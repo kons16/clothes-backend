@@ -12,8 +12,8 @@ func NewServer(userUC *usecase.UserUseCase, sessionUC *usecase.SessionUseCase, c
 
 	userHandler := handler.NewUserHandler(userUC)
 	sessionHandler := handler.NewSessionHandler(sessionUC)
-	clothHandler := handler.NewClothHandler(clothUC)
-	cordinateHandler := handler.NewCordinateHandler(cordiUC)
+	clothHandler := handler.NewClothHandler(clothUC, sessionUC)
+	cordinateHandler := handler.NewCordinateHandler(cordiUC, sessionUC)
 
 	// GET サーバーが立ち上がっているか確認
 	http.HandleFunc("/api/v1/hello", handler.Hello)
