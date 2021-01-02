@@ -4,7 +4,9 @@ ICTソリューション実践 バックエンド部分.
 )  
 [構成の参考にしたドキュメント](https://github.com/camphor-/relaym-server/blob/master/docs/application_architecture.md)  
 
-APIの仕様は [doc/api.md](https://github.com/kons16/team7-backend/blob/master/doc/api.md) を参考にしてください.  
+APIの仕様は [doc/api.md](https://github.com/kons16/team7-backend/blob/master/doc/api.md) を参考にしてください.   
+
+<img src="https://user-images.githubusercontent.com/31591102/103457722-14ae9500-4d45-11eb-8d82-a4628fd4791a.png" height="350">
   
 ## 環境構築
 ```
