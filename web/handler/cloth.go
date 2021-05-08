@@ -82,17 +82,20 @@ func (ch *ClothHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if method == "GET" {
-		cookie, err := r.Cookie("sessionID")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		v := cookie.Value
+		/*
+			cookie, err := r.Cookie("isLoggedIn")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			v := cookie.Value
+			fmt.Println(v)
 
-		getUserID := ch.sc.CheckBySession(v)
-		if getUserID == 0 {
-			http.Redirect(w, r, "/", http.StatusMovedPermanently)
-		}
+			getUserID := ch.sc.CheckBySession(v)
+			if getUserID == 0 {
+				http.Redirect(w, r, "/", http.StatusMovedPermanently)
+			}
+		*/
 
 		clothes := ch.cu.GetAll()
 		var s []interface{}
