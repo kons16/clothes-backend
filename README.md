@@ -12,7 +12,12 @@ $ git clone https://github.com/kons16/team7-backend.git
 $ cd team7-backend
 $ docker-compose up
 ```
-DBの起動とS3へのアクセスには `.env` を設定する必要があります.  
+DBの起動とS3へのアクセスには `.env` を設定する必要があります.
+
+## テスト
+```
+$ go test -v ./...
+```  
 
 ## データベース
 ### MySQL
