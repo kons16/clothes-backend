@@ -72,11 +72,12 @@ func (sh *SessionHandler) Logout(w http.ResponseWriter, r *http.Request) {
 		v := cookie.Value
 
 		checkBool := sh.sc.Logout(v)
-		checkStr := ""
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		// bool を str に変換
+		checkStr := ""
 		if checkBool == true {
 			checkStr = "true"
 		} else {
