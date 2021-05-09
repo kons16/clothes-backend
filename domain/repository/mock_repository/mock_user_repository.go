@@ -63,17 +63,17 @@ func (mr *MockUserMockRecorder) Create(user interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUser)(nil).Create), user)
 }
 
-// FindPasswordHashBySubmitID mocks base method
-func (m *MockUser) FindPasswordHashBySubmitID(submitID string) (*entity.LoginGetUser, error) {
+// FindUserBySubmitID mocks base method
+func (m *MockUser) FindUserBySubmitID(submitID string) (*entity.LoginGetUser, error) {
 	//m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindPasswordHashBySubmitID", submitID)
+	ret := m.ctrl.Call(m, "FindUserBySubmitID", submitID)
 	ret0, _ := ret[0].(*entity.LoginGetUser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// FindPasswordHashBySubmitID indicates an expected call of FindPasswordHashBySubmitID
-func (mr *MockUserMockRecorder) FindPasswordHashBySubmitID(submitID interface{}) *gomock.Call {
+// FindUserBySubmitID indicates an expected call of FindUserBySubmitID
+func (mr *MockUserMockRecorder) FindUserBySubmitID(submitID interface{}) *gomock.Call {
 	//mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindPasswordHashBySubmitID", reflect.TypeOf((*MockUser)(nil).FindPasswordHashBySubmitID), submitID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserBySubmitID", reflect.TypeOf((*MockUser)(nil).FindUserBySubmitID), submitID)
 }

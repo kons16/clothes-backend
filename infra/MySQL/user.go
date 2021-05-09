@@ -42,8 +42,8 @@ func (r *UserRepository) Create(user *entity.User) (int, error) {
 	return id, err
 }
 
-// FindPasswordHashBySubmitID は submitID に紐づく userID と PasswordHash を取得する
-func (r *UserRepository) FindPasswordHashBySubmitID(submitID string) (*entity.LoginGetUser, error) {
+// FindUserHashBySubmitID は submitID に紐づく userID と PasswordHash を取得する
+func (r *UserRepository) FindUserBySubmitID(submitID string) (*entity.LoginGetUser, error) {
 	var user []entity.LoginGetUser
 	err := r.dbMap.Select(&user, `SELECT id, password_hash FROM users WHERE submit_id = ?`, submitID)
 	if err != nil {

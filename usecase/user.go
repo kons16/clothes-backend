@@ -64,7 +64,7 @@ func (uc *UserUseCase) CreateUser(user *User) (string, error) {
 
 func (uc *UserUseCase) Login(userLogin *UserLogin) (string, error) {
 	// submit_id に紐づく user情報(passwordHash, UserID) を取得する
-	user, err := uc.userRepo.FindPasswordHashBySubmitID(userLogin.SubmitID)
+	user, err := uc.userRepo.FindUserBySubmitID(userLogin.SubmitID)
 	if err != nil {
 		return "", err
 	}
