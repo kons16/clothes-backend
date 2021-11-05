@@ -1,5 +1,4 @@
 # team7-backend
-ICTソリューション実践 バックエンド部分.  
 標準ライブラリで作る, DDD構成のAPIサーバー. ([フロントエンドのリポジトリ](https://github.com/sunakane/team7-mock)
 )  
 [構成の参考にしたドキュメント](https://github.com/camphor-/relaym-server/blob/master/docs/application_architecture.md)  
