@@ -1,4 +1,4 @@
-# team7-backend
+# clothes-backend
 標準ライブラリで作る, DDD構成のAPIサーバー. ([フロントエンドのリポジトリ](https://github.com/sunakane/team7-mock)
 )  
 [構成の参考にしたドキュメント](https://github.com/camphor-/relaym-server/blob/master/docs/application_architecture.md)  
@@ -9,8 +9,8 @@ APIの仕様は [doc/api.md](https://github.com/kons16/team7-backend/blob/master
   
 ## 環境構築
 ```
-$ git clone https://github.com/kons16/team7-backend.git
-$ cd team7-backend
+$ git clone https://github.com/kons16/clothes-backend.git
+$ cd clothes-backend
 $ docker-compose up
 ```
 DBの起動とS3へのアクセスには `.env` を設定する必要があります.
